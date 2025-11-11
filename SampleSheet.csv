@@ -1,0 +1,6 @@
+SampleID,fastq1,fastq2
+MID1,./input/MID1_S1_L001_R1_001.fastq,./input/MID1_S1_L001_R2_001.fastq
+MID59,./input/MID59_S6_L001_R1_001.fastq,./input/MID59_S6_L001_R2_001.fastq
+MID60,./input/MID60_S7_L001_R1_001.fastq,./input/MID60_S7_L001_R2_001.fastq
+MID61,./input/MID61_S8_L001_R1_001.fastq,./input/MID61_S8_L001_R2_001.fastq
+MID62,./input/MID62_S9_L001_R1_001.fastq,./input/MID62_S9_L001_R2_001.fastq

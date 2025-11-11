@@ -1,4 +1,4 @@
-while getopts "i:o:f:r:" opt; do
+while getopts "i:o:f:r:p:" opt; do
   case ${opt} in
     i )
       sampleid=$OPTARG
@@ -34,7 +34,7 @@ mkdir -p ${output};
 
 #### ALIGNMENT
 echo -e "ALIGNMENT"
-
+echo -e "using read pattern " ${read_pattern}
 mixcr align \
 -p generic-amplicon-with-umi \
 --rna \
@@ -92,3 +92,11 @@ ${output}/${sampleid}.clns
 mixcr exportClones -uniqueTagCount Molecule -count ${output}/${sampleid}.reassigned.clns ${output}/${sampleid}.reassigned.tsv
 
 # EOF
+# to install MIXCR: https://mixcr.com/mixcr/getting-started/installation/
+# download mixcr 4.6: https://github.com/milaboratory/mixcr/releases/download/v4.6.0/mixcr-4.6.0.zip
+# tested with version 4.3.2
+# to get the license: https://platforma.bio/getlicense?_gl=1*1dx2w72*_gcl_au*MjE0MzIwOTAyLjE3NjI4NzQwNjM.*_ga*MTMxODQwNTg5NC4xNzYyODc0MDYz*_ga_7K1RPNHREB*czE3NjI4NzQwNjMkbzEkZzEkdDE3NjI4NzQwNzIkajUxJGwwJGgw&product=mixcr
+# mixcr activate-license
+
+# to dowload imgt  reference genome: https://mixcr.com/mixcr/guides/external-libraries/
+# download from imgt github: https://github.com/repseqio/library-imgt/releases
