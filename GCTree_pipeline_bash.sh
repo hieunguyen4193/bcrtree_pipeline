@@ -32,7 +32,15 @@ while IFS=',' read -r sample_id fasta; do \
     export XDG_RUNTIME_DIR=/tmp/runtime-runner
     export MPLBACKEND=agg
 
-    gctree infer --verbose --root GL --frame 1 --idlabel ${outputdir}/${sample_id}/outfile ${outputdir}/${sample_id}/${sample_id}.abundance.csv
+    gctree infer \
+        --verbose \
+        --root GL \
+        --frame 1 \
+        --idlabel ${outputdir}/${sample_id}/outfile \
+        ${outputdir}/${sample_id}/${sample_id}.abundance.csv \
+        --outbase ${sample_id}
+    mv ${sample_id}* ${outputdir}/${sample_id};
+    
 done < <(tail -n +2 ${samplesheet})
 
 
