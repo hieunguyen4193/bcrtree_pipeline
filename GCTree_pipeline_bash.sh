@@ -28,6 +28,7 @@ while IFS=',' read -r sample_id fasta; do \
     # since outfile and outtree are generated at the current working dir, we need to manually move it to the output dir. 
     mv outfile ${outputdir}/${sample_id};
     mv outtree ${outputdir}/${sample_id};
+
     export QT_QPA_PLATFORM=offscreen
     export XDG_RUNTIME_DIR=/tmp/runtime-runner
     export MPLBACKEND=agg
@@ -35,12 +36,13 @@ while IFS=',' read -r sample_id fasta; do \
     gctree infer \
         --verbose \
         --root GL \
-        --frame 1 \
         --idlabel ${outputdir}/${sample_id}/outfile \
         ${outputdir}/${sample_id}/${sample_id}.abundance.csv \
-        --outbase ${sample_id}
+        --outbase ${sample_id};
+        # --frame 1 \
+        
     mv ${sample_id}* ${outputdir}/${sample_id};
-    
+
 done < <(tail -n +2 ${samplesheet})
 
 
