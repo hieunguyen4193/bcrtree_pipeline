@@ -202,7 +202,8 @@ generate_fasta <- function(clonesets,
                            thres.dis = 0.15,
                            save_fasta = TRUE,
                            re_define_clone_cluster = FALSE,
-                           msa.method = "Muscle"){
+                           msa.method = "Muscle", 
+                           path.to.save.samplesheet = NULL){
   dir.create(path.to.save.output, showWarnings = FALSE, recursive = TRUE)
   if (re_define_clone_cluster == TRUE){
     print("RE-DEFINE THE CLONE CLUSTERS BASED ON CDR3 SEQUENCE SIMILARITY AND V-J GENE USAGES ON SELECTED SAMPLES/MIDS ONLY")
@@ -333,8 +334,10 @@ generate_fasta <- function(clonesets,
       } 
     }
   }
-  write.csv(data.frame(
-    filename = all.filenames,
-    path = all.paths
-  ), file.path(path.to.save.samplesheet, "SampleSheet_FASTA.csv"), row.names = FALSE, sep = ",")
+  if (is.null(path.to.save.samplesheet) == FALSE){
+    write.csv(data.frame(
+      filename = all.filenames,
+      path = all.paths
+    ), file.path(path.to.save.samplesheet, "SampleSheet_FASTA.csv"), row.names = FALSE, sep = ",", quote = FALSE)
+  }
 } 
