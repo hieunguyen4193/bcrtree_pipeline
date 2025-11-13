@@ -22,7 +22,7 @@ while getopts "i:o:f:r:p:" opt; do
   esac
 done
 
-output=${outputdir}/mid_based_output/${sampleid};
+output=${outputdir}/${sampleid};
 mkdir -p ${output};
 
 # example read pattern, applied to Britta BCR data. 

@@ -253,6 +253,8 @@ generate_fasta <- function(clonesets,
       return(x)
     })
   }
+  all.paths <- c()
+  all.filenames <- c()
   for (input.VJ.combi in unique(clonesets[[sprintf("VJcombi_CDR3_%s", thres)]])){
     V.gene <- str_split(input.VJ.combi, "_")[[1]][[1]]
     J.gene <- str_split(input.VJ.combi, "_")[[1]][[2]]
@@ -260,6 +262,9 @@ generate_fasta <- function(clonesets,
     # remove the * sign in the file name
     path.to.fasta.file <- file.path(path.to.save.output, 
                                     sprintf("%s.fasta", str_replace_all(input.VJ.combi, "[*]", "-")))
+    
+    all.paths <- c(all.paths, path.to.fasta.file)
+    all.filenames <- c(all.filenames, str_replace(basename(path.to.fasta.file), ".fasta", ""))
     
     if (file.exists(path.to.fasta.file) == FALSE){
       fasta.output <- subset(clonesets, clonesets[[sprintf("VJcombi_CDR3_%s", thres)]] == input.VJ.combi)[, c("targetSequences", 
@@ -328,4 +333,8 @@ generate_fasta <- function(clonesets,
       } 
     }
   }
+  write.csv(data.frame(
+    filename = all.filenames,
+    path = all.paths
+  ), file.path(path.to.save.samplesheet, "SampleSheet_FASTA.csv"), row.names = FALSE, sep = ",")
 } 

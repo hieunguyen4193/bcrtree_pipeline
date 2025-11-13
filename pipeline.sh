@@ -1,5 +1,10 @@
 # ***** run the mixcr pipeline to do alignment and BCR gene quantification.
-export PATH=/home/hieunguyen/CRC1382/src_2023/bcrtree_pipeline/mixcr:$PATH
+# activate the conda env
+# conda activate gctree
+
+# export mixcr to current path
+export PATH=/home/hieunguyen/CRC1382/src_2023/bcrtree_pipeline/mixcr:$PATH # change this to the path of your mixcr
+
 fastqdir="/home/hieunguyen/CRC1382/src_2023/bcrtree_pipeline/input";
 read_pattern="^N{35}(UMI:N{16})N{4:6}(R1:*)\^N{34}(R2:*)"; # to see more about tag pattern: https://mixcr.com/mixcr/reference/ref-tag-pattern/
 outputdir="./output/mixcr_pipeline_output";
@@ -7,12 +12,17 @@ mkdir -p ${outputdir};
 
 samplesheet="SampleSheet.csv";
 
-while IFS=',' read -r sampleid fastq1 fastq2; do
-    echo -e "working on sample " ${sampleid}
-    echo -e "path to FASTQ1 " ${fastq1}
-    echo -e "path to FASTQ2 " ${fastq2}
-    # run the mixcr pipeline
-    bash mixcr_pipeline.sh -i ${sampleid} -o ${outputdir}  -f ${fastq1} -r ${fastq2} -p ${read_pattern}
+while IFS=',' read -r sampleid fastq1 fastq2; do \
+    if [ ! -f "${outputdir}/${sampleid}/${sampleid}.finished.txt" ]; then 
+        echo -e "working on sample " ${sampleid}
+        echo -e "path to FASTQ1 " ${fastq1}
+        echo -e "path to FASTQ2 " ${fastq2}
+        # run the mixcr pipeline
+        bash mixcr_pipeline.sh -i ${sampleid} -o ${outputdir}  -f ${fastq1} -r ${fastq2} -p ${read_pattern}
+        touch ${outputdir}/${sampleid}/${sampleid}.finished.txt
+    else 
+        echo -e "Sample " ${sampleid} " already processed, skipping..."
+    fi
 done < <(tail -n +2 ${samplesheet})
 
 # ***** DO NOT RUN, THIS REQUIRES NEXTFLOW
@@ -57,6 +67,7 @@ Rscript prepare_input_for_GCTree.R \
     --define_clone_cluster ${define_clone_clusters} \
     --ref_gene ${ref_gene} \
     --mouse_id ${mouse_id};
+# the above rscript also generates a file "SampleSheet_FASTA.csv"
 
 # ***** GCTree -> generate tree
 # the file "SampleSheet_FASTA.csv" contains filename and path of all FASTA files. 

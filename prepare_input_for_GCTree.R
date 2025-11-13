@@ -146,13 +146,14 @@ input.clonesets <- clonesets
 output.all.fasta <- generate_fasta(
   clonesets = input.clonesets, 
   mouse.id = mouse.id,
-  path.to.save.output = file.path(path.to.save.fasta, "all_samples"), 
+  path.to.save.output = file.path(path.to.save.fasta), 
   ref.gene = ref.gene, 
   ref.gene.config = ref.gene.config,
   PROJECT = PROJECT,
   thres = 0.85,
   thres.dis = 0.15,
   save_fasta = save_fasta,
-  re_define_clone_cluster = re_define_clone_cluster)
+  re_define_clone_cluster = re_define_clone_cluster,
+  path.to.save.samplesheet = path.to.main.src)
 
 # EOF
