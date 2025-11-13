@@ -2,9 +2,30 @@
 # see instruction to install GCTree https://matsen.group/gctree/install.html
 # probably the best way is to use conda or pip install gctree
 # install PHYLIP: conda install -c bioconda phylip
-samplesheet="SampleSheet_FASTA.csv";
-deduplicate_src="./deduplicated.py"
-outputdir="./output/GCTree"
+
+# example input args
+# samplesheet="SampleSheet_FASTA.csv";
+# deduplicate_src="./deduplicated.py"
+# outputdir="./output/GCTree"
+
+while getopts "i:o:d:" opt; do
+  case ${opt} in
+    i )
+      samplesheet=$OPTARG
+      ;;
+    o )
+      outputdir=$OPTARG
+      ;;
+    d )
+      deduplicate_src=$OPTARG
+      ;;
+    
+    \? )
+      echo "Usage: cmd [-i] samplesheet [-o] outputdir [-d] deduplicate_src"
+      exit 1
+      ;;
+  esac
+done
 
 mkdir -p ${outputdir}
 # if you don't use nextflow as a pipeline orchestration engine, run this bash script. 
@@ -43,9 +64,13 @@ while IFS=',' read -r sample_id fasta; do \
         
     mv ${sample_id}* ${outputdir}/${sample_id};
 
-done < <(tail -n +2 ${samplesheet})
+done < <(tail -n +2 ${samplesheet});
 
+echo -e "*******************************";
+echo -e "***** FINISHED *****";
+echo -e "*******************************";
 
+# ***** DO NOT RUN *****
 # test read in samplesheet file with sample id and path to file fasta. 
 # samplesheet="SampleSheet_FASTA.csv";
 # # if you don't use nextflow as a pipeline orchestration engine, run this bash script. 
