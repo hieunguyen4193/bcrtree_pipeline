@@ -140,3 +140,20 @@ Finally, we run the `GCTree` script to generate trees for each `FASTA` file gene
 ```sh 
 bash GCTree_pipeline_bash.sh -i "SampleSheet_FASTA.csv" -o "./output/GCTree" -d "./deduplicated.py"
 ```
+
+If there is no tree found from the input BCR sequences, the following error will be shown
+```sh
+/home/hieunguyen/miniconda3/envs/gctree/lib/python3.9/site-packages/gctree/phylip_parse.py:189: UserWarning: Parsed 0 from ./output/GCTree/IGHV1-47-01_IGHJ4-01_42_1/outfile but -1 expected!
+  warn(
+Traceback (most recent call last):
+  File "/home/hieunguyen/miniconda3/envs/gctree/bin/gctree", line 7, in <module>
+    sys.exit(main())
+  File "/home/hieunguyen/miniconda3/envs/gctree/lib/python3.9/site-packages/gctree/cli.py", line 784, in main
+    args.func(args)
+  File "/home/hieunguyen/miniconda3/envs/gctree/lib/python3.9/site-packages/gctree/cli.py", line 169, in infer
+    pp.parse_outfile(args.infiles[0], args.infiles[1], args.root)
+  File "/home/hieunguyen/miniconda3/envs/gctree/lib/python3.9/site-packages/gctree/phylip_parse.py", line 193, in parse_outfile
+    raise RuntimeError(f"No trees found in '{outfile}'")
+RuntimeError: No trees found in './output/GCTree/IGHV1-47-01_IGHJ4-01_42_1/outfile'
+mv: cannot stat 'IGHV1-47-01_IGHJ4-01_42_1*': No such file or directory
+```
