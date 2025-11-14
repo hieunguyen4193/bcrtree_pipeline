@@ -256,6 +256,7 @@ generate_fasta <- function(clonesets,
   }
   all.paths <- c()
   all.filenames <- c()
+  all.counts <- c()
   for (input.VJ.combi in unique(clonesets[[sprintf("VJcombi_CDR3_%s", thres)]])){
     V.gene <- str_split(input.VJ.combi, "_")[[1]][[1]]
     J.gene <- str_split(input.VJ.combi, "_")[[1]][[2]]
@@ -263,9 +264,6 @@ generate_fasta <- function(clonesets,
     # remove the * sign in the file name
     path.to.fasta.file <- file.path(path.to.save.output, 
                                     sprintf("%s.fasta", str_replace_all(input.VJ.combi, "[*]", "-")))
-    
-    all.paths <- c(all.paths, path.to.fasta.file)
-    all.filenames <- c(all.filenames, str_replace(basename(path.to.fasta.file), ".fasta", ""))
     
     if (file.exists(path.to.fasta.file) == FALSE){
       fasta.output <- subset(clonesets, clonesets[[sprintf("VJcombi_CDR3_%s", thres)]] == input.VJ.combi)[, c("targetSequences", 
@@ -300,6 +298,10 @@ generate_fasta <- function(clonesets,
       all.seqs <- c(fasta.output %>% pull(`seq`), GL.seq)
       
       if (nrow(fasta.output) > 1){
+        all.counts <- c(all.counts, nrow(fasta.output))
+        all.paths <- c(all.paths, path.to.fasta.file)
+        all.filenames <- c(all.filenames, str_replace(basename(path.to.fasta.file), ".fasta", ""))
+        
         ##### multiple alignment sequences, package MSA. 
         MiXCRtreeVDJ <- all.seqs %>% DNAStringSet()
         msaMiXCRtreeVDJ <- msa(inputSeqs = MiXCRtreeVDJ, verbose = TRUE, method = msa.method)
@@ -335,9 +337,12 @@ generate_fasta <- function(clonesets,
     }
   }
   if (is.null(path.to.save.samplesheet) == FALSE){
-    write.csv(data.frame(
+    fasta.samplesheet <- data.frame(
       filename = all.filenames,
-      path = all.paths
-    ), file.path(path.to.save.samplesheet, "SampleSheet_FASTA.csv"), row.names = FALSE, sep = ",", quote = FALSE)
+      path = all.paths,
+      count = all.counts
+    ) %>% arrange(count) %>% subset(select = -c(count))
+    
+    write.csv(fasta.samplesheet, file.path(path.to.save.samplesheet, "SampleSheet_FASTA.csv"), row.names = FALSE, sep = ",", quote = FALSE)
   }
 } 
