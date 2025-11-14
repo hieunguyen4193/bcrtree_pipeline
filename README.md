@@ -47,7 +47,14 @@ for (pkg in new.bioc.pkgs){
 ```
 
 # Run the pipeline
-The pipeline is written in the script `pipeline.sh`. I'm going to break down the script and explain its function:
+The pipeline is written in the script `pipeline.sh`. Simply run: 
+
+```sh 
+bash pipeline.sh
+```
+on your computer.
+
+I'm going to break down the script and explain its function:
 
 We need to export the `MiXCR` tool to make it executable:
 ```sh
