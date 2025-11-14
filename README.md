@@ -157,3 +157,4 @@ Traceback (most recent call last):
 RuntimeError: No trees found in './output/GCTree/IGHV1-47-01_IGHJ4-01_42_1/outfile'
 mv: cannot stat 'IGHV1-47-01_IGHJ4-01_42_1*': No such file or directory
 ```
+Trees are generated as`*.svg` files. For further computational or programatic analysis on trees, we can use the file `outtree`. This format can be imported by `python` packages like [ete3](https://etetoolkit.org). 
