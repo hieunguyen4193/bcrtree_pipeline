@@ -26,7 +26,7 @@ conda install -c bioconda phylip -y
 ```
 
 ## R
-`R` is also required. I'Ve already add script to automatically check and install missing packages in the R environment. In case there is still some packages missing, please install them manually.
+`R` is also required. I've already added script to automatically check and install missing packages in the R environment. In case there is still some packages missing, please install them manually.
 
 ```R 
 # a code snippet to install R packages, taken from "prepare_input_for_GCTree.R"
